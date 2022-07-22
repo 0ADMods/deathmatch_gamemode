@@ -1,0 +1,17 @@
+{
+	"TranslatedKeys": [
+		"Title",
+		"Description"
+	],
+	"Data": {
+		"Title": "Death Match",
+		"Description": "All technologies are now researched.",
+		"Scripts": [
+			"scripts/TriggerHelper.js",
+			"scripts/DeathMatch.js"
+		],
+		"Default": false,
+		"DisabledWhenChecked": [],
+		"GUIOrder": 20
+	}
+}
