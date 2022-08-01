@@ -18,8 +18,12 @@
         const civ = Engine.QueryInterface(cmpPlayerManager.GetPlayerByID(i), IID_Identity).GetCiv();
         for (const templateName of TechnologyTemplates.GetNames().filter(a => TechnologyTemplates.Has(a))) {
 
-            if ((templateName === "phase_city" || templateName === "phase_town") && (civ === "athen" || civ === "pers"))
+            if ((templateName === 'phase_city_generic' || templateName === 'phase_city' || templateName === 'phase_town_generic' || templateName === 'phase_town') && (civ === 'athen' || civ === 'pers')) {
                 continue;
+            }
+
+            warn(uneval(civ));
+            warn(uneval(templateName));
 
             cmpTechnologyManager.ResearchTechnology(templateName);
         }
