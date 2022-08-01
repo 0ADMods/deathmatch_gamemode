@@ -15,7 +15,12 @@
         if (!cmpTechnologyManager)
             continue;
 
-        for (const templateName of TechnologyTemplates.GetNames().filter(a => TechnologyTemplates.Has(a)))
+        for (const templateName of TechnologyTemplates.GetNames().filter(a => TechnologyTemplates.Has(a))) {
+
+            if ((templateName == "phase_city_generic" || templateName == "phase_town_generic") && (civ == "athen" || civ == "pers"))
+                continue;
+
             cmpTechnologyManager.ResearchTechnology(templateName);
+        }
     }
 }
