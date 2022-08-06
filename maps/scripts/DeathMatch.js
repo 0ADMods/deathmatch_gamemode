@@ -15,17 +15,33 @@
         if (!cmpTechnologyManager)
             continue;
 
-        const civ = Engine.QueryInterface(cmpPlayerManager.GetPlayerByID(i), IID_Identity).GetCiv();
-        for (const templateName of TechnologyTemplates.GetNames().filter(a => TechnologyTemplates.Has(a))) {
+        const civ = QueryPlayerIDInterface(i, IID_Identity).GetCiv();
 
-            if ((templateName === 'phase_city_generic' || templateName === 'phase_city' || templateName === 'phase_town_generic' || templateName === 'phase_town') && (civ === 'athen' || civ === 'pers')) {
+        let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
+        for (let templateName of cmpTemplateManager.FindAllTemplates(false))
+        {
+            if (templateName.search("/" + civ + "/") == -1)
                 continue;
+
+            let templateRes = cmpTemplateManager.GetTemplateWithoutValidation(templateName).Researcher;
+            if (!templateRes)
+                continue;
+
+            let technologies = templateRes.Technologies._string.split(" ");
+            for (let tech of technologies)
+            {
+                if (tech.endsWith("{civ}"))
+                {
+                    tech = tech.replace("{civ}", civ);
+                    if (!TechnologyTemplates.Get(tech))
+                        tech = tech.replace("_" + civ, "_generic");
+                }
+
+                if (tech.startsWith("pair"))
+                    continue;
+
+                cmpTechnologyManager.ResearchTechnology(tech);
             }
-
-            warn(uneval(civ));
-            warn(uneval(templateName));
-
-            cmpTechnologyManager.ResearchTechnology(templateName);
         }
     }
 }
