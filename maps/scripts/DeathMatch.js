@@ -38,8 +38,11 @@
                 }
 
                 if (tech.startsWith("pair"))
-                    continue;
-
+                {
+                    const template = TechnologyTemplates.Get(tech);
+                    tech = template.bottom;
+                    cmpTechnologyManager.ResearchTechnology(template.top);
+                }
                 cmpTechnologyManager.ResearchTechnology(tech);
             }
         }
