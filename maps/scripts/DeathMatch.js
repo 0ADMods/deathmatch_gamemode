@@ -1,7 +1,32 @@
 /**
  * SPDX-License-Identifier: MIT
- * SPDX-FileCopyrightText: © 2022 Stanislas Daniel Claude Dolcini
+ * SPDX-FileCopyrightText: © 2022 Stanislas Daniel Claude Dolcini, Andy Alt
  */
+
+function hasReq(civ, tech) {
+    const template = TechnologyTemplates.Get(tech);
+
+    // Some civs do not get the same upgrades. Requirements are specified
+    // in the templates
+    let tReq = template.requirements.all;
+    let tAny = [];
+
+    if (tReq) {
+        if (tReq.some(r => {
+            if (r.any)
+                tAny = r.any
+            if (r.civ)
+                return r.civ != civ;
+            return r.notciv === civ;
+        })) return false;
+        if (tAny) {
+            if (tAny.some(r => {
+                return r.civ != civ;
+            })) return false;
+        }
+    }
+    return true;
+}
 
 {
     const cmpPlayerManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager);
@@ -36,14 +61,16 @@
                     if (!TechnologyTemplates.Get(tech))
                         tech = tech.replace("_" + civ, "_generic");
                 }
-
-                if (tech.startsWith("pair"))
+                else if (tech.startsWith("pair"))
                 {
                     const template = TechnologyTemplates.Get(tech);
                     tech = template.bottom;
-                    cmpTechnologyManager.ResearchTechnology(template.top);
+                    if (hasReq(civ, template.top))
+                        cmpTechnologyManager.ResearchTechnology(template.top);
                 }
-                cmpTechnologyManager.ResearchTechnology(tech);
+
+                if (hasReq(civ, tech))
+                    cmpTechnologyManager.ResearchTechnology(tech);
             }
         }
     }
