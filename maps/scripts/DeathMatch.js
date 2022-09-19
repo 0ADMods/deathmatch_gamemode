@@ -16,12 +16,12 @@ function hasReq(civ, tech) {
             if (r.any)
                 tAny = r.any
             if (r.civ)
-                return r.civ != civ;
+                return r.civ !== civ;
             return r.notciv === civ;
         })) return false;
         if (tAny) {
             if (tAny.some(r => {
-                return r.civ != civ;
+                return r.civ !== civ;
             })) return false;
         }
     }
@@ -45,7 +45,7 @@ function hasReq(civ, tech) {
         let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
         for (let templateName of cmpTemplateManager.FindAllTemplates(false))
         {
-            if (templateName.search("/" + civ + "/") == -1)
+            if (templateName.search("/" + civ + "/") === -1)
                 continue;
 
             let templateRes = cmpTemplateManager.GetTemplateWithoutValidation(templateName).Researcher;
