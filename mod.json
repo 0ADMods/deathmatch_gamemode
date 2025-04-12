@@ -1,8 +1,8 @@
 {
 	"name": "deathmatch_gamemode",
 	"label": "Death Match Game Mode",
-	"version": "0.26.0",
+	"version": "0.27.0",
 	"url": "",
 	"description": "Adds a mode that researches all technologies for all players.",
-	"dependencies": ["0ad=0.0.26"]
+	"dependencies": ["0ad=0.27.0"]
 }
