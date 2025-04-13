@@ -8,6 +8,10 @@ function hasReq(civ, tech) {
 
     // Some civs do not get the same upgrades. Requirements are specified
     // in the templates
+    if (!template.requirements?.all) {
+        return true;
+    }
+
     let tReq = template.requirements.all;
     let tAny = [];
 
