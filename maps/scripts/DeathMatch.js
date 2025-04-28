@@ -6,6 +6,11 @@
 function hasReq(civ, tech) {
     const template = TechnologyTemplates.Get(tech);
 
+    // It's very easy to win against the AI when the game
+    // starts with City Phase. Don't activate it.
+    if (template.genericName === "City Phase")
+        return false;
+
     // Some civs do not get the same upgrades. Requirements are specified
     // in the templates
     if (!template.requirements?.all) {
